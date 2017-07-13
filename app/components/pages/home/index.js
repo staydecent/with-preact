@@ -1,3 +1,4 @@
+// Components
 import Card from '/components/elements/card'
 import Button from '/components/elements/button'
 import Dropdown from '/components/elements/dropdown'
@@ -13,28 +14,31 @@ import Modal from '/components/elements/modal'
 import Page from '/components/elements/page'
 import PageTitle from '/components/elements/page-title'
 
-import range from '/util/range'
-import {compose, withState} from '/util/compose'
+// State
+import {dispatch} from '/store'
+import {openModal} from '/components/elements/modal/actions'
 
-const OpenModal = compose(
-  withState('open', 'setOpen', false),
-  function render ({setOpen, open}) {
-    console.log('OpenModal', open)
-    return (
-      <div>
-        {open
-          ? <Modal open={open}>Hi there!</Modal>
-          : ''}
-        <Button to={(ev) => ev.preventDefault() || setOpen(true)}>Win!</Button>
-      </div>
-    )
-  }
+// Util
+import pipe from '/util/pipe'
+import range from '/util/range'
+
+const OpenModal = pipe(
+  ({modals}) => ({
+    modals,
+    handleClick: (ev) =>
+      ev.preventDefault() || dispatch(openModal('OpenModal'))
+  }),
+  ({handleClick, modals}) =>
+    <div>
+      <Modal uid='OpenModal' open={!!modals['OpenModal']}>Hi there!</Modal>
+      <Button to={handleClick}>Win!</Button>
+    </div>
 )
 
-const Home = ({url}) =>
+const Home = ({url, modals}) =>
   <Page>
     <PageTitle title='With Preact'>
-      <OpenModal />
+      <OpenModal modals={modals} />
     </PageTitle>
     <div style='max-width: 640px; margin: 1rem auto;'>
       <h1>Hello World</h1>
