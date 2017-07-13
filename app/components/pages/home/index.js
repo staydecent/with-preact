@@ -9,15 +9,32 @@ import {
 } from '/components/elements/form'
 import {Row, Column} from '/components/elements/grid'
 import Link from '/components/elements/link'
+import Modal from '/components/elements/modal'
 import Page from '/components/elements/page'
 import PageTitle from '/components/elements/page-title'
 
 import range from '/util/range'
+import {compose, withState} from '/util/compose'
+
+const OpenModal = compose(
+  withState('open', 'setOpen', false),
+  function render ({setOpen, open}) {
+    console.log('OpenModal', open)
+    return (
+      <div>
+        {open
+          ? <Modal open={open}>Hi there!</Modal>
+          : ''}
+        <Button to={(ev) => ev.preventDefault() || setOpen(true)}>Win!</Button>
+      </div>
+    )
+  }
+)
 
 const Home = ({url}) =>
   <Page>
     <PageTitle title='With Preact'>
-      <Button>Win!</Button>
+      <OpenModal />
     </PageTitle>
     <div style='max-width: 640px; margin: 1rem auto;'>
       <h1>Hello World</h1>
