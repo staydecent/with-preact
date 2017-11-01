@@ -19,7 +19,7 @@ const Main = compose(
     return (
       <div>
         <Header />
-        <Router>
+        <Router routes={routes}>
           <Route component={Home} name='home' />
           <Route component={Components} name='components' />
           <Route component={Components} name='components2' />
