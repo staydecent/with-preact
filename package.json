@@ -13,7 +13,6 @@
     "std": "standard --verbose | snazzy"
   },
   "dependencies": {
-    "atom": "1.1.0",
     "atom-lens-reducer": "0.2.0",
     "check-arg-types": "1.1.0",
     "classless-component": "0.1.0",
