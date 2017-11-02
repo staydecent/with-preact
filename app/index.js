@@ -1,11 +1,13 @@
-import {Router, Route} from '/util/route'
 import {getState, subscribe} from '/store'
+import routes from '/routes'
+
+import {Router, Route} from '/util/route'
 import compose from '/util/compose'
+
 import Header from '/components/elements/header'
 import Home from '/components/pages/home'
 import Resource from '/components/pages/resource'
 import Components from '/components/pages/components'
-import routes from '/routes'
 
 const Main = compose(
   {state: getState()},
