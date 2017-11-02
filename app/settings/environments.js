@@ -1,20 +1,19 @@
 import {filter} from 'wasmuth'
 
 const environments = {
-  development: ['http://localhost:3333', 'http://localhost:3334'],
+  development: ['localhost:3333', 'localhost:3334'],
   staging: '[STAGING_URL]',
   production: '[PRODUCTION_URL]'
 }
 
 export const environment = (() => {
-  const {host, protocol} = window.location
-  const url = `${protocol}//${host}`
+  const host = window.location.host
   const current = filter(
     (k) => {
       if (typeof environments[k] === 'object') {
-        return filter(v => v === url, environments[k]).length > 0
+        return filter(v => v === host, environments[k]).length > 0
       }
-      return environments[k] === url
+      return environments[k] === host
     },
     Object.keys(environments)
   )[0]
