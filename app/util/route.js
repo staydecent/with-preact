@@ -1,6 +1,5 @@
 import queryString from 'query-string'
-import {map, reduce} from 'wasmuth'
-import {equals} from 'ramda'
+import {map, reduce, equal} from 'wasmuth'
 
 import PreactRouter from 'preact-router'
 
@@ -54,7 +53,7 @@ export const Route = compose(
       url: window.location.pathname,
       name: this.props.name
     }
-    if (!equals(currentValues, newValues)) {
+    if (!equal(currentValues, newValues)) {
       dispatch(set('route', newValues))
     }
   },
