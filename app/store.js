@@ -1,5 +1,4 @@
 import {createStore} from 'redux'
-import atom from 'atom'
 import {watchStore} from 'wasmuth'
 import {
   set as lensSet,
@@ -39,7 +38,6 @@ export const store = createStore(combine(reducers), initialState, composeWithDev
 export const dispatch = store.dispatch
 export const getState = store.getState
 export const subscribe = store.subscribe
-export const unsubscribe = store.unsubscribe
 export const set = lensSet
 export const update = lensUpdate
 export const remove = lensRemove
