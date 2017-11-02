@@ -21,6 +21,8 @@
     "preact-portal": "1.1.2",
     "preact-router": "2.5.7",
     "query-string": "^5.0.0",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
     "throttle-debounce": "^1.0.1",
     "wasmuth": "^1.2.2"
   },
