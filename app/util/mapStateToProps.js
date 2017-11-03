@@ -8,9 +8,11 @@ import compose from '/util/compose'
  *
  * mapper: (state) => props this component needs from state
  * Component: the component that needs the props
+ *
+ * @TODO: Eventually move this to wasmuth
  */
 export default mapper => Component => compose({
-  componentWillMount() {
+  componentWillMount () {
     const syncState = () => {
       const newProps = mapper(getState())
       if (!equal(newProps, this.state)) {
@@ -20,11 +22,10 @@ export default mapper => Component => compose({
     syncState()
     this.unsubscribe = subscribe(syncState)
   },
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe()
   },
-  render(props) {
+  render (props) {
     return <Component {...props} />
   }
 })
-

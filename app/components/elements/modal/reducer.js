@@ -1,14 +1,12 @@
-import {assoc} from 'wasmuth'
-
 import {OPEN_MODAL, CLOSE_MODAL} from './actions'
 
-const modalReducer = (state, {type, payload, meta}) => {
+const modalReducer = (state, {type, payload}) => {
   switch (type) {
     case OPEN_MODAL:
-      return {...state, modal: {[payload.name]: payload.props}}
+      return {...state, modal: payload.name}
 
     case CLOSE_MODAL:
-      return {...state, modal: {}}
+      return {...state, modal: undefined}
 
     default:
       return state

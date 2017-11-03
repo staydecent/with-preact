@@ -1,4 +1,3 @@
-import {getState, subscribe} from '/store'
 import routes from '/routes'
 
 import {Router, Route} from '/util/route'

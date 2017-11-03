@@ -12,7 +12,6 @@ import {
 } from '/components/elements/form'
 import {Row, Column} from '/components/elements/grid'
 import Link from '/components/elements/link'
-import Modal from '/components/elements/modal'
 import Page from '/components/elements/page'
 import PageTitle from '/components/elements/page-title'
 

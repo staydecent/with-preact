@@ -21,8 +21,7 @@ const combine = (reducers) => (state, action) =>
   )
 
 const initialState = {
-  url: window.location.pathname,
-  modal: {}
+  url: window.location.pathname
 }
 
 const reducers = [
