@@ -4,6 +4,6 @@ import BaseComponents from './base'
 
 export default () => {
   return BaseComponents({
-    openModal: () => dispatch(openModal('Example'))
+    openModal: () => dispatch(openModal('Example', {name: 'example'}))
   })
 }

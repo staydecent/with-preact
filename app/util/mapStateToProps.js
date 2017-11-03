@@ -3,10 +3,11 @@ import {subscribe, getState} from '/store'
 import compose from '/util/compose'
 
 /**
- * mapper: (state) => props this component needs for state
- * Component: the component that needs the props
- *
+ * Mapper is called whenever the state changes.
  * Whenever the result of mapper changes, the component rerenders
+ *
+ * mapper: (state) => props this component needs from state
+ * Component: the component that needs the props
  */
 export default mapper => Component => compose({
   componentWillMount() {
