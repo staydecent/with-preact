@@ -21,5 +21,5 @@ export default (args, options = {}) => {
 
   promise
     .then(response => dispatch(set(['requests', args.url, 'result'], response)))
-    .catch(error => dispatch(set(['requests', args.url, 'error'], error)))
+    .catch(error => console.error(error) || dispatch(set(['requests', args.url, 'error'], error)))
 }
