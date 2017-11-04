@@ -4,14 +4,17 @@ import compose from '/util/compose'
 import withProgress from '/components/hoc/with-progress'
 
 /**
- * Simulate a request to "url" in state (currently only for progress simulation)
+ * Simulate a successful, slow, request to "url" in state (with progress)
  */
 const fakeRequest = url => {
   var counter = 1
   const interval = window.setInterval(() => {
     dispatch(set(['requests', url, 'progress'], {loaded: counter, total: 100}))
     counter++
-    counter > 100 && window.clearInterval(interval)
+    if (counter > 100) {
+      window.clearInterval(interval)
+      dispatch(set(['requests', url, 'result'], 'Result'))
+    }
   }, 100)
   return interval
 }
