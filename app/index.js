@@ -7,9 +7,11 @@ import Home from '/components/pages/home'
 import Resource from '/components/pages/resource'
 import Components from '/components/pages/components'
 import Modals from '/components/modals'
+import GlobalNotifications from '/components/elements/global-notifications'
 
 const Main = () =>
   <div>
+    <GlobalNotifications />
     <Header />
     <Router routes={routes}>
       <Route component={Home} name='home' />
