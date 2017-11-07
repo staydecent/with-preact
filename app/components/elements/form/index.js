@@ -5,7 +5,7 @@ import Button from '/components/elements/button'
 import {dispatch} from '/store'
 import {updateFormData} from './actions'
 
-const {cloneElement} = Preact
+export const {cloneElement} = Preact
 
 export const Form = compose(
   setNodeName('Form'),

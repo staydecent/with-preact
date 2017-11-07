@@ -11,6 +11,6 @@ export default ({openExampleModal}) =>
     <h1>Progress</h1>
     <ProgressExample />
     <hr />
-    <h1>Form</h1>
+    <h1>Forms</h1>
     <ExampleForm />
   </div>

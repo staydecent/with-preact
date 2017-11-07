@@ -1,4 +1,4 @@
-import {pipe} from 'wasmuth'
+import {pipe, path, reduce, equal} from 'wasmuth'
 import {dispatch} from '/store'
 import {
   formSet as formSetBuilder,
@@ -6,71 +6,103 @@ import {
 } from '../actions.js'
 import compose from '/util/compose'
 import mapStateToProps from '/util/mapStateToProps'
+import BaseForm from './base'
+
+// why doesn't {cloneElement} = Preact work?
+import {cloneElement} from '../index'
 
 export default mapStateToProps(
   (state, {name}) => path(['forms', name], state)
 )(compose({
-    componentWillUnmount () {
-      this.formSet = formSetBuilder(this.props.name)
-      this.formRemove = formRemoveBuilder(this.props.name)
-      !this.props.keepFormDataOnUnmount && dispatch(this.formRemove())
-    },
-    componentWillUpdate ({
-      name,
-      initialData,
-      validations = {},
-      onSubmit
-    }) {
-      console.log('will update')
-    },
-    render (props) {
-      return BaseForm(props)
+  componentWillMount () {
+    this.formSet = formSetBuilder(this.props.name)
+    this.formRemove = formRemoveBuilder(this.props.name)
+  },
+  componentWillUnmount () {
+    !this.props.keepFormDataOnUnmount && dispatch(this.formRemove())
+  },
+  componentWillUpdate ({
+    initialData,
+    validations = {},
+    onSubmit,
+    name,
+    data,
+    initialized,
+    asyncErrors,
+    submit,
+    errors: existingErrors
+  }) {
+    if (!initialized) {
+      dispatch(this.formSet(['initialized'], true))
+      dispatch(this.formSet(['data'], initialData))
     }
-      // const formState = pathOr({}, ['forms', formName], getState())
-      // if (!formState) { return }
-      // if (!formState.initialized) {
-      //   dispatch(
-      //     formSet(formName, ['initialized'], true),
-      //     formSet(formName, ['data'], initialData)
-      //   )
-      // }
 
-      // if (formState.submit) {
-      //   console.log('ABOUT TO SUBMIT')
-      //   dispatch(
-      //     formSet(formName, ['submit'], false),
-      //     formSet(formName, ['submitting'], true)
-      //   )
-      //   onSubmit(formState.data, onSuccess(formName), onError(formName))
-      // }
+    if (submit) {
+      dispatch(this.formSet(['submit'], false))
+      dispatch(this.formSet(['submitting'], true))
+      onSubmit(data, onSuccess(name), onError(name))
+    }
 
-      // const errors = validate(formState.data || {}, validations)
-      // if (!equals(errors, formState.errors)) {
-      //   dispatch(
-      //     formSet(formName, ['errors'], errors),
-      //     formRemove(formName, ['asyncErrors'])
-      //   )
-      // }
-    // },
-    // function render ({
-      // validations = {},
-      // formName,
-      // onSubmit,
-      // form = {},
-      // initialData = {},
-      // children,
-      // ...props
-    // }) {
-      // return (
-      //   <BaseForm
-      //     onSubmit={
-      //       ev =>
-      //         ev.preventDefault() ||
-      //         dispatch(formSet(formName, ['submit'], true))
-      //     }
-      //     {...props}
-      //   >
-      //     {addFormNameToChildren(children, formName)}
-      //   </BaseForm>
-      // )
+    const errors = validate(data || {}, validations)
+    if (!equal(errors, existingErrors)) {
+      dispatch(this.formSet(['errors'], errors))
+      asyncErrors && dispatch(this.formRemove(['asyncErrors']))
+    }
+  },
+  render ({formSet, name, children, ...props}) {
+    return BaseForm({
+      onSubmit: ev => ev.preventDefault() || dispatch(formSet(['submit'], true)),
+      children: addFormNameToChildren(children, name),
+      ...props
+    })
+  }
 }))
+
+const validate = (data, validations) =>
+  reduce(
+    (acc, key) => {
+      const validation = validations[key](data[key])
+      return validation
+        ? {[key]: validations[key](data[key]), ...acc}
+        : acc
+    },
+    {},
+    Object.keys(validations)
+  )
+
+const addFormNameToChildren = (children, formName) => {
+  const names = ['TextInput', 'Label', 'Error', 'SubmitButton']
+  for (var x = 0; x < children.length; x++) {
+    if (children[x] && children[x].nodeName &&
+      names.indexOf(children[x].nodeName.name) > -1 &&
+      !path(['attributes', 'formName'], children[x])) {
+      children[x] = cloneElement(children[x], {formName})
+    }
+    if (children[x] && children[x].children && children[x].children.length) {
+      children[x].children = addFormNameToChildren(children[x].children, formName)
+    }
+  }
+  return children
+}
+
+const onSuccess = formName => ({
+  clearAllFormData = true,
+  clearMeta = false
+}) => {
+  const formSet = formSetBuilder(formName)
+  const formRemove = formRemoveBuilder(formName)
+  if (clearAllFormData) {
+    dispatch(formRemove())
+  } else if (clearMeta) {
+    dispatch(formRemove(['modified']))
+    dispatch(formRemove(['touched']))
+  } else {
+    dispatch(formSet(formName, ['submitting'], false))
+  }
+}
+
+const onError = formName => ({fieldErrors = {}}) => {
+  const formSet = formSetBuilder(formName)
+  dispatch(formSet(['submitting'], false))
+  dispatch(formSet(['asyncErrors'], fieldErrors))
+}
