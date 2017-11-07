@@ -1,4 +1,5 @@
 import ProgressExample from './progress'
+import ExampleForm from './form'
 
 export default ({openExampleModal}) =>
   <div>
@@ -9,4 +10,7 @@ export default ({openExampleModal}) =>
     <hr />
     <h1>Progress</h1>
     <ProgressExample />
+    <hr />
+    <h1>Form</h1>
+    <ExampleForm />
   </div>
