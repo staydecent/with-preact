@@ -1,4 +1,5 @@
-import {pipe, path, reduce, equal} from 'wasmuth'
+import {cloneElement} from 'preact'
+import {path, reduce, equal} from 'wasmuth'
 import {dispatch} from '/store'
 import {
   formSet as formSetBuilder,
@@ -7,9 +8,6 @@ import {
 import compose from '/util/compose'
 import mapStateToProps from '/util/mapStateToProps'
 import BaseForm from './base'
-
-// why doesn't {cloneElement} = Preact work?
-import {cloneElement} from '../index'
 
 export default mapStateToProps(
   (state, {name}) => path(['forms', name], state)
@@ -71,7 +69,7 @@ const validate = (data, validations) =>
   )
 
 const addFormNameToChildren = (children, formName) => {
-  const names = ['TextInput', 'Label', 'Error', 'SubmitButton']
+  const names = ['TextInput', 'Label', 'Error', 'SubmitButton', 'TextArea', 'Select']
   for (var x = 0; x < children.length; x++) {
     if (children[x] && children[x].nodeName &&
       names.indexOf(children[x].nodeName.name) > -1 &&
