@@ -1,6 +1,6 @@
 import Home from '/components/pages/home'
 import Resource from '/components/pages/resource'
-import Components from '/components/pages/components'
+import Example from '/components/pages/examples'
 
 export const routes = {
   home: {
@@ -8,8 +8,8 @@ export const routes = {
     component: Home
   },
   components: {
-    path: '/components',
-    component: Components
+    path: '/examples',
+    component: Example
   },
   resource: {
     path: '/resource/:id',
