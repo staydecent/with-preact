@@ -3,7 +3,7 @@ import {map} from 'wasmuth'
 import Link from '/components/elements/link'
 
 
-export default function ({
+export default function render ({
   active,
   prev,
   next,
@@ -11,19 +11,24 @@ export default function ({
   getWidth,
   getStyle,
   children
-}) =>
-  <div className={`carousel`}>
-    <div className='slides'>
-      {map((c, idx) =>
-        <div
-          ref={(ref) => idx === 0 && getWidth(ref)}
-          class={`${className}${idx === active ? ' active' : ''}`}
-          style={getStyle(idx, active)}
-        >{c}</div>
-      , children)}
+}) {
+  return <div className='carousel-block carousel'>
+    <div className='card-carousel-content row'>
+      <nav>
+        <Link to={prev} className='carousel-btn left' />
+      </nav>
+      <div className='slides'>
+        {map((c, idx) =>
+          <div
+            ref={(ref) => idx === 0 && getWidth(ref)}
+            style={getStyle(idx, active)}
+            class={`${className}${idx === active ? ' active' : ''}`}
+          >{c}</div>
+        , children)}
+      </div>
+      <nav>
+        <Link to={next} className='carousel-btn right' />
+      </nav>
     </div>
-    <nav>
-      <Link to={prev} className='carousel-btn left' />
-      <Link to={next} className='carousel-btn right' />
-    </nav>
   </div>
+}

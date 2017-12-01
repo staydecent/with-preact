@@ -1,8 +1,8 @@
 import {guid} from 'wasmuth'
 
-import {compose, setNodeName, watchPath} from '/util/compose'
+import {compose, setNodeName} from '/util/compose'
 
-import {dispatch, set} from '/store'
+import {dispatch, set, watchPath} from '/store'
 
 import render from './base'
 

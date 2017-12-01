@@ -1,6 +1,7 @@
-import {pipe, range} from 'wasmuth'
+import {map, pipe, range} from 'wasmuth'
 
 // Components
+import Carousel from '/components/elements/carousel'
 import Card from '/components/elements/card'
 import Button from '/components/elements/button'
 import Dropdown from '/components/elements/dropdown'
@@ -90,6 +91,13 @@ const Home = ({url, modals = {}}) =>
           <Card>{n}</Card>
         </Column>
       )}</Row>
+    </div>
+    <div className='spaced'>
+      <Carousel>
+        {map((program) =>
+          <img src='http://www.placehold.it/400x300' />
+        , [1, 2, 3, 4, 5])}
+      </Carousel>
     </div>
   </Page>
 
