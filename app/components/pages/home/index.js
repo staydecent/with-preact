@@ -95,7 +95,7 @@ const Home = ({url, modals = {}}) =>
     <div className='spaced'>
       <Carousel>
         {map((program) =>
-          <img src='http://www.placehold.it/400x300' />
+          <img src={`http://www.placehold.it/400x300?text=${program}`} />
         , [1, 2, 3, 4, 5])}
       </Carousel>
     </div>
