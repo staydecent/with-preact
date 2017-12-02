@@ -2,13 +2,12 @@ import {map} from 'wasmuth'
 
 import Link from '/components/elements/link'
 
-
 export default function render ({
   active,
   prev,
   next,
   className = 'carousel-slide',
-  getWidth,
+  getRef,
   getStyle,
   children
 }) {
@@ -20,7 +19,7 @@ export default function render ({
       <div className='slides'>
         {map((c, idx) =>
           <div
-            ref={(ref) => idx === 0 && getWidth(ref)}
+            ref={(ref) => idx === 0 && getRef(ref)}
             style={getStyle(idx, active)}
             class={`${className}${idx === active ? ' active' : ''}`}
           >{c}</div>

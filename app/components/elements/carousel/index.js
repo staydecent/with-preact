@@ -11,10 +11,16 @@ const Carousel = compose(
 
   function init () {
     this._uid = guid()
-    this.state = {active: this.props.active || 0}
+    this.state = {active: this.props.active || 0, width: 0}
     dispatch(set(['Carousel', this._uid], this.props.active || 0))
     watchPath(['Carousel', this._uid], (active) =>
       active !== this.state.active && this.setState({active})
+    )
+  },
+
+  function componentDidMount () {
+    window.requestAnimationFrame(() =>
+      this.setState({...this.state, width: this.ref.offsetWidth})
     )
   },
 
@@ -34,15 +40,17 @@ const Carousel = compose(
     dispatch(set(['Carousel', this._uid], n))
   },
 
-  function getWidth (ref) {
+  function getRef (ref) {
     if (!ref) return
-    this.width = ref.offsetWidth
+    this.ref = ref
   },
 
   function getStyle (idx, active) {
-    return idx === 0 && idx !== active
-      ? `margin-left: -${this.width * active}px;`
+    const {width} = this.state
+    const style = idx === 0 && idx !== active
+      ? `margin-left: -${width * active}px;`
       : ''
+    return style
   },
 
   render

@@ -16,49 +16,15 @@
       flex-wrap: nowrap;
       overflow: hidden;
       justify-content: flex-start;
-      width: 430px;
+      width: 400px;
 
-      @media @phone-to-desktop-max {
-        width: 420px;
-      }
-
-      @media @phone {
-        width: 360px;
-      }
-
-      @media screen and (max-width: 418px) {
-        width: 320px;
-      }
-
-      @media screen and (max-width: 376px) {
-        width: 270px;
-        font-size: 85%;
-      }
-
-      .slide {
+      > div {
         width: 100%;
-        max-width: 375px;
         transition: all .2s ease-in-out;
-
-        @media @phone-to-desktop-max {
-          max-width: 368px;
-        }
 
         a {
           text-decoration: none;
           display: block;
-
-          img.thumb {
-            width: 100%;
-          }
-
-          .slide-text {
-            padding: @gutter;
-
-            @media screen and (max-width: 1010px) {
-              font-size: 88%;
-            }
-          }
         }
       }
     }
@@ -67,23 +33,6 @@
       a {
         &:first-of-type {
           margin-right: 0;
-        }
-      }
-    }
-  }
-
-  @media @tablet-desktop {
-    .slide {
-      flex-shrink: 0;
-      border-radius: 7px;
-      overflow: hidden;
-      margin-left: @gutter;
-
-      a {
-        display: block;
-
-        img.thumb {
-          width: 375px;
         }
       }
     }
