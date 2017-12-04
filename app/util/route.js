@@ -6,7 +6,13 @@ import PreactRouter from 'preact-router'
 import {compose, setNodeName} from '/util/compose'
 
 import {set, dispatch, getState} from '/store'
-import routes from '/routes'
+
+let routes = {}
+
+export const defineRoutes = (givenRoutes) => {
+  routes = {...routes, ...givenRoutes}
+  return givenRoutes
+}
 
 /**
  * Add preact-router props into the atom state

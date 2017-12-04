@@ -1,15 +1,22 @@
-import {Router} from '/util/route'
+import {Router, defineRoutes} from '/util/route'
 
 import Header from '/components/elements/header'
 import Modals from '/components/modals'
 
-import routes from '/routes'
+import App from '/components/pages/app'
 
-const App = () =>
+const routes = defineRoutes({
+  app: {
+    path: '/app',
+    component: App
+  }
+})
+
+const Main = () =>
   <div id='main'>
     <Header />
     <Router routes={routes} />
     <Modals />
   </div>
 
-Preact.render(<App />, document.body, document.getElementById('main'))
+Preact.render(<Main />, document.body, document.getElementById('main'))
