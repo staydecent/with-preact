@@ -5,11 +5,11 @@ import Modals from '/components/modals'
 
 import routes from '/routes'
 
-const Landing = () =>
+const Main = () =>
   <div id='main'>
     <Header />
     <Router routes={routes} />
     <Modals />
   </div>
 
-Preact.render(<Landing />, document.body, document.getElementById('main'))
+Preact.render(<Main />, document.body, document.getElementById('main'))
