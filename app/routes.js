@@ -1,15 +1,15 @@
 import Home from '/components/pages/home'
 import Resource from '/components/pages/resource'
-import Components from '/components/pages/components'
+import Guide from '/components/pages/guide'
 
 export const routes = {
   home: {
     path: '/',
     component: Home
   },
-  components: {
-    path: '/components',
-    component: Components
+  guide: {
+    path: '/guide',
+    component: Guide
   },
   resource: {
     path: '/resource/:id',
