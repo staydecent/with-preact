@@ -3,9 +3,17 @@ const http = require('http')
 const fs = require('fs')
 const path = require('path')
 
+const ejs = require('ejs')
 const queryString = require('query-string')
 
 const port = process.env.PORT || 8080
+const indexFile = './public/index.html'
+
+const renderIndex = (data, response) =>
+  fs.readFile(indexFile, {encoding: 'utf8'}, (_, content) => {
+    response.writeHead(200, { 'Content-Type': 'text/html' })
+    response.end(ejs.render(content, {og: 1, ...data}), 'utf-8')
+  })
 
 http.createServer((request, response) => {
   const search = url.parse(request.url).search
@@ -14,7 +22,7 @@ http.createServer((request, response) => {
 
   let filePath = './public' + request.url
   if (filePath === './public/') {
-    filePath = './public/index.html'
+    filePath = indexFile
   }
 
   const extname = String(path.extname(filePath)).toLowerCase()
@@ -40,18 +48,19 @@ http.createServer((request, response) => {
   fs.readFile(filePath, (error, content) => {
     if (error) {
       if (error.code === 'ENOENT') {
-        fs.readFile('./public/index.html', (_, content) => {
-          response.writeHead(200, { 'Content-Type': 'text/html' })
-          response.end(content, 'utf-8')
-        })
+        renderIndex(parsed, response)
       } else {
         response.writeHead(500)
         response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n')
         response.end()
       }
     } else {
-      response.writeHead(200, { 'Content-Type': contentType })
-      response.end(content, 'utf-8')
+      if (filePath === indexFile) {
+        renderIndex(parsed, response)
+      } else {
+        response.writeHead(200, { 'Content-Type': contentType })
+        response.end(content, 'utf-8')
+      }
     }
   })
 }).listen(port)
