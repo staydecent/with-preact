@@ -1,11 +1,16 @@
+const url = require('url')
 const http = require('http')
 const fs = require('fs')
 const path = require('path')
 
+const queryString = require('query-string')
+
 const port = process.env.PORT || 8080
 
 http.createServer((request, response) => {
-  console.log('request ', request.url)
+  const search = url.parse(request.url).search
+  const parsed = queryString.parse(search)
+  console.log('parsed', parsed)
 
   let filePath = './public' + request.url
   if (filePath === './public/') {
