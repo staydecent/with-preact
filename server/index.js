@@ -35,8 +35,8 @@ http.createServer((request, response) => {
   fs.readFile(filePath, (error, content) => {
     if (error) {
       if (error.code === 'ENOENT') {
-        fs.readFile('./404.html', (_, content) => {
-          response.writeHead(200, { 'Content-Type': contentType })
+        fs.readFile('./public/index.html', (_, content) => {
+          response.writeHead(200, { 'Content-Type': 'text/html' })
           response.end(content, 'utf-8')
         })
       } else {
