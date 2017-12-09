@@ -4,7 +4,7 @@ export default () =>
   <div>
     <a href={urlFor('home')}>Home</a>
     &nbsp;
-    <a href={urlFor('components')}>Components</a>
+    <a href={urlFor('guide')}>Components</a>
     &nbsp;
     <a
       href={urlFor(
