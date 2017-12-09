@@ -18,7 +18,7 @@ const isOverlay = (el) =>
 document.body.addEventListener('click', (ev) => {
   const modal = getState().modal
   if (modal && isOverlay(ev.target)) {
-    dispatch(closeModal)
+    dispatch(closeModal())
   }
 })
 
