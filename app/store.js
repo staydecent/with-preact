@@ -1,13 +1,11 @@
 import {createStore} from 'redux'
 import {watchStore} from 'wasmuth'
-import {
-  set as lensSet,
-  update as lensUpdate,
-  remove as lensRemove,
-  reducer as lensReducer
-} from 'atom-lens-reducer'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
+import {
+  pathReducer,
+  actions
+} from '/util/pathReducer'
 import mapStateToPropsUtil from '/util/mapStateToProps'
 import dropdownReducer from '/components/elements/dropdown/reducer'
 import formReducer from '/components/elements/form/reducer'
@@ -25,7 +23,7 @@ const initialState = {
 const reducers = [
   dropdownReducer,
   formReducer,
-  (state, action) => lensReducer(action, state)
+  pathReducer
 ]
 
 export const store = createStore(
@@ -36,9 +34,9 @@ export const store = createStore(
 export const dispatch = store.dispatch
 export const getState = store.getState
 export const subscribe = store.subscribe
-export const set = lensSet
-export const update = lensUpdate
-export const remove = lensRemove
+export const set = actions.set
+export const update = actions.update
+export const remove = actions.remove
 export const watchPath = watchStore(store)
 export const mapStateToProps = mapStateToPropsUtil
 export default store

@@ -21,9 +21,15 @@ exports.files = {
 
 exports.plugins = {
   babel: {
-    presets: ['es2015', 'react'],
+    presets: [
+      ['env', {
+        'targets': {
+          'browsers': ['last 2 versions']
+        }
+      }],
+      'react'
+    ],
     plugins: [
-      'transform-es2015-spread',
       'transform-object-rest-spread',
       ['module-resolver/lib/index.js', {
         'alias': {

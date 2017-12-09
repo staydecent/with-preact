@@ -1,6 +1,5 @@
 import {request} from 'wasmuth'
-import {set} from 'atom-lens-reducer'
-import {dispatch} from '/store'
+import {dispatch, set} from '/store'
 
 /**
  * Stateful Request:
