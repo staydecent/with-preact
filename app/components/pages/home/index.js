@@ -2,7 +2,6 @@ import {map, range} from 'wasmuth'
 
 // Components
 import Carousel from '/components/elements/carousel'
-import Card from '/components/elements/card'
 import Dropdown from '/components/elements/dropdown'
 import {
   Form,
@@ -16,11 +15,11 @@ const Home = ({url, modals = {}}) =>
 
     <div className='intro' style='max-width: 640px; margin: 1rem auto;'>
       <h1>Hello World</h1>
-      <Card className='elevated hover-scale'>
+      <div className='card elevated hover-scale'>
         <p>{url}</p>
         <a href='http://google.ca'>Google</a>
         <a className='btn' href='http://news.ycombinator.com'>Hacker News</a>
-      </Card>
+      </div>
       <div class='spaced'>
         <h2>Dropdown</h2>
         <Dropdown>
@@ -35,17 +34,17 @@ const Home = ({url, modals = {}}) =>
       <Row><h2>Grid</h2></Row>
       <Row>{range(1, 4).map((n) =>
         <Column>
-          <Card>{n}</Card>
+          <div className='card'>{n}</div>
         </Column>
       )}</Row>
       <Row>{range(4, 6).map((n) =>
         <Column>
-          <Card>{n}</Card>
+          <div className='card'>{n}</div>
         </Column>
       )}</Row>
     </div>
 
-    <Card className='spaced'>
+    <div className='card spaced'>
       <Form>
         <h2>Sign In</h2>
         <p>Sign in to your account below.</p>
@@ -55,7 +54,7 @@ const Home = ({url, modals = {}}) =>
 
         <button type='submit' className='btn'>Sign In</button>
       </Form>
-    </Card>
+    </div>
 
     <div className='spaced'>
       <Carousel>
