@@ -3,7 +3,6 @@ import {pathOr, pipe, filter, guid} from 'wasmuth'
 import {compose, setNodeName} from '/util/compose'
 
 import {DownArrow} from '/components/elements/arrow'
-import Button from '/components/elements/button'
 import Level from '/components/elements/level'
 
 import {dispatch, getState, subscribe} from '/store'
@@ -77,9 +76,9 @@ const Dropdown = compose(
         : 'dropdown-menu'
     return <div>
       {Trigger === undefined
-        ? <Button className='btn btn-dropdown black-ghost-btn' onClick={handleClick}>
+        ? <button className='btn btn-dropdown black-ghost-btn' onClick={handleClick}>
           <Level noPadding>{buttonText} <DownArrow /></Level>
-        </Button>
+        </button>
         : <Trigger className='btn btn-dropdown' onClick={handleClick} />}
       {noWrapper
         ? open && children

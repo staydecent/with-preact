@@ -1,7 +1,6 @@
 import {debounce as debounceFunction} from 'throttle-debounce'
 
 import {compose, setNodeName} from '/util/compose'
-import Button from '/components/elements/button'
 import {dispatch} from '/store'
 import {updateFormData} from './actions'
 
@@ -126,4 +125,4 @@ export const Radio = ({name, val, value, formName, ...props}) =>
   />
 
 export const SubmitButton = ({children, ...props}) =>
-  <Button type='submit' {...props}>{children}</Button>
+  <button type='submit' {...props}>{children}</button>
