@@ -1,6 +1,4 @@
-import {createAction} from 'wasmuth'
+import {set} from '/store'
 
-export const OPEN_MODAL = 'OPEN_MODAL'
-export const CLOSE_MODAL = 'CLOSE_MODAL'
-export const openModal = (name) => createAction(OPEN_MODAL)({name})
-export const closeModal = createAction(CLOSE_MODAL)({})
+export const openModal = (name) => set('modal', name)
+export const closeModal = () => set('modal', null)

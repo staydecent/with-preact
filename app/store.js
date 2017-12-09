@@ -10,7 +10,6 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 
 import mapStateToPropsUtil from '/util/mapStateToProps'
 import dropdownReducer from '/components/elements/dropdown/reducer'
-import modalReducer from '/components/elements/modal/reducer'
 import formReducer from '/components/elements/form/reducer'
 
 const combine = (reducers) => (state, action) =>
@@ -25,7 +24,6 @@ const initialState = {
 
 const reducers = [
   dropdownReducer,
-  modalReducer,
   formReducer,
   (state, action) => lensReducer(action, state)
 ]
