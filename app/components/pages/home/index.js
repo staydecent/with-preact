@@ -1,18 +1,17 @@
 import {map, range} from 'wasmuth'
 
 // Components
-import Carousel from '/components/elements/carousel'
-import Dropdown from '/components/elements/dropdown'
+import Carousel from '/components/elements/Carousel'
+import Dropdown from '/components/elements/Dropdown'
 import {
   Form,
   TextField
-} from '/components/elements/form'
-import {Row, Column} from '/components/elements/grid'
-import Page from '/components/elements/page'
+} from '/components/elements/Form'
+import {Row, Column} from '/components/elements/Grid'
+import Page from '/components/elements/Page'
 
 const Home = ({url, modals = {}}) =>
   <Page>
-
     <div className='intro' style='max-width: 640px; margin: 1rem auto;'>
       <h1>Hello World</h1>
       <div className='card elevated hover-scale'>
@@ -63,7 +62,6 @@ const Home = ({url, modals = {}}) =>
         , ['fff', 'a7c', '09d', '411', '111'])}
       </Carousel>
     </div>
-
   </Page>
 
 export default Home

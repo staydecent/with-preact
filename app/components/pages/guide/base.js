@@ -1,5 +1,5 @@
 // import ProgressExample from './progress'
-import Image from './image'
+import Image from './Image'
 
 export default ({openExampleModal}) =>
   <div className='guide-component'>
@@ -10,6 +10,6 @@ export default ({openExampleModal}) =>
     <hr />
     <h1>Progress</h1>
     <p>Uncomment progress to view it (changes state a lot)</p>
-    {/*<ProgressExample />*/}
+    {/* <ProgressExample /> */}
     <Image />
   </div>

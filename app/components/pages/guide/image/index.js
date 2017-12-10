@@ -1,4 +1,4 @@
-import Image from '/components/elements/image'
+import Image from '/components/elements/Image'
 
 const IMAGES = [
   {

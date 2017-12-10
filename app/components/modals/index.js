@@ -1,5 +1,5 @@
 import {mapStateToProps} from '/store'
-import Example from './example'
+import Example from './Example'
 
 const MODALS = {
   Example

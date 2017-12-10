@@ -7,7 +7,7 @@ import {
   actions
 } from '/util/pathReducer'
 import mapStateToPropsUtil from '/util/mapStateToProps'
-import formReducer from '/components/elements/form/reducer'
+import formReducer from '/components/elements/Form/reducer'
 
 const combine = (reducers) => (state, action) =>
   reducers.reduce(
