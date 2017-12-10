@@ -44,12 +44,12 @@ const Home = ({url, modals = {}}) =>
     </div>
 
     <div className='card spaced'>
-      <Form>
+      <Form name='SignUp'>
         <h2>Sign In</h2>
         <p>Sign in to your account below.</p>
 
-        <TextField placeholder='Your Email' name='email' />
-        <TextField placeholder='Your Password' name='pass' />
+        <TextField type='email' placeholder='Your Email' name='email' />
+        <TextField type='password' placeholder='Your Password' name='pass' rules={{min: 8}} />
 
         <button type='submit' className='btn'>Sign In</button>
       </Form>

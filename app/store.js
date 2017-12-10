@@ -7,13 +7,6 @@ import {
   actions
 } from '/util/pathReducer'
 import mapStateToPropsUtil from '/util/mapStateToProps'
-import formReducer from '/components/elements/Form/reducer'
-
-const combine = (reducers) => (state, action) =>
-  reducers.reduce(
-    (newState, reducer) => reducer(newState, action),
-    state
-  )
 
 const initialState = {
   url: window.location.pathname,
@@ -21,13 +14,8 @@ const initialState = {
   modal: null
 }
 
-const reducers = [
-  formReducer,
-  pathReducer
-]
-
 export const store = createStore(
-  combine(reducers),
+  pathReducer,
   initialState,
   composeWithDevTools()
 )

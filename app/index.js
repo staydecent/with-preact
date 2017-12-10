@@ -5,6 +5,10 @@ import Modals from '/components/Modals'
 
 import routes from '/routes'
 
+import {subscribe, getState} from '/store'
+
+subscribe(() => console.log('state', getState()))
+
 const Main = () =>
   <div>
     <Header />

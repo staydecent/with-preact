@@ -2,24 +2,6 @@
 
 form {
   margin-top: @gutter;
-
-  .or {
-    position: relative;
-    text-align: center;
-    line-height: 1.15rem;
-    font-size: 1.15rem;
-    color: @half-black;
-    margin: @gutter auto;
-    border-top: 1px solid @grey;
-    max-width: 60%;
-
-    span {
-      display: inline-block;
-      padding: 0 @gutter/2;
-      border: 10px solid @white;
-      margin-top: -50px;
-    }
-  }
 }
 
 fieldset {
@@ -53,8 +35,44 @@ textarea {
   margin-bottom: @gutter / 2;
 }
 
+.field-hint {
+  font-size: .75em;
+  font-weight: 300;
+  margin: -0.5em 0 3em 0;
+  color: @light-grey;
 
-.form-heading {
-  text-align: center;
-  padding-bottom: @gutter;
+  &.is-error {
+    color: @red;
+  }
+}
+
+input.fancy-label {
+  position: relative;
+}
+
+.label-wrap {
+  position: relative;
+}
+
+input.fancy-label + label::after {
+  content: " ";
+}
+
+.fancy-label:placeholder-shown + label {
+  color: #999;
+  left: 0;
+  top: 1em;
+  font-size: 1em;
+}
+
+input.fancy-label:focus + label,
+input.fancy-label + label {
+  position: absolute;
+  top: -1.1em;
+  left: 0;
+  color: #999;
+  line-height: 60px;
+  pointer-events: none;
+  transition: all 0.25s;
+  font-size: .9em;
 }
