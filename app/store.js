@@ -7,7 +7,6 @@ import {
   actions
 } from '/util/pathReducer'
 import mapStateToPropsUtil from '/util/mapStateToProps'
-import dropdownReducer from '/components/elements/dropdown/reducer'
 import formReducer from '/components/elements/form/reducer'
 
 const combine = (reducers) => (state, action) =>
@@ -17,11 +16,12 @@ const combine = (reducers) => (state, action) =>
   )
 
 const initialState = {
-  url: window.location.pathname
+  url: window.location.pathname,
+  dropdowns: {},
+  modal: null
 }
 
 const reducers = [
-  dropdownReducer,
   formReducer,
   pathReducer
 ]

@@ -2,16 +2,16 @@ import {DownArrow} from '/components/elements/arrow'
 import Level from '/components/elements/level'
 
 function BaseDropdown ({
-  open,
+  isOpen,
   handleClick,
   Trigger,
   buttonText = 'Select',
   noWrapper = false,
   children
 }) {
-  const cls = open
+  const cls = isOpen
     ? 'dropdown-menu open'
-    : open === false
+    : isOpen === false
       ? 'dropdown-menu close'
       : 'dropdown-menu'
   return <div>
@@ -21,7 +21,7 @@ function BaseDropdown ({
       </button>
       : <Trigger className='btn btn-dropdown' onClick={handleClick} />}
     {noWrapper
-      ? open && children
+      ? isOpen && children
       : <div className={cls}>
         <div class='dropdown-arrow' />
         {children}

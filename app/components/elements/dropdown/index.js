@@ -1,11 +1,13 @@
-import {pathOr, pipe, filter, guid} from 'wasmuth'
+import {pathOr, pipe, filter} from 'wasmuth'
 
-import {compose, setNodeName} from '/util/compose'
+import {
+  set,
+  dispatch,
+  getState,
+  mapStateToProps
+} from '/store'
 
-import {dispatch, getState, subscribe} from '/store'
-
-import {closeAllDropdowns, toggleDropdown} from './actions'
-import render from './base'
+import BaseDropdown from './base'
 
 // DOM event to close all Dropdown's on off-click
 const isDropdown = (el) =>
@@ -14,7 +16,7 @@ const isDropdown = (el) =>
 
 document.body.addEventListener('click', (ev) => {
   const dds = pipe(
-    pathOr({}, ['_dropdowns']),
+    pathOr({}, ['dropdowns']),
     filter((val) => val),
     Object.keys
   )(getState())
@@ -27,43 +29,21 @@ document.body.addEventListener('click', (ev) => {
     el = el.parentNode
     if (isDropdown(el)) return
   }
-  dispatch(closeAllDropdowns())
+  dispatch(set(['dropdowns'], {}))
 })
 
-// The component
-function componentWillMount () {
-  this._uid = guid()
-}
-
-function componentDidMount () {
-  // Adjust position dynamically
-  // const offset = this.base.offsetWidth < 1000
-  //   ? this.base.offsetWidth / 2
-  //   : this.base.offsetWidth / 4
-  // const menuEl = this.base.querySelector('.dropdown-menu')
-  // menuEl.style = `margin-left: -${offset}px`
-  // Sync state
-  const syncState = () => {
-    const open = pathOr(false, ['_dropdowns', this._uid], getState())
-    if (open !== this.state.open) {
-      if (open === false && this.state.open === undefined) {
-        return
-      }
-      this.setState({open})
+export default mapStateToProps(
+  ({dropdowns}, {uid, ...props}) => {
+    if (!uid) {
+      console.warn('<Dropdown> must include a uid prop.')
+    }
+    return {
+      uid,
+      isOpen: !!dropdowns[uid],
+      handleClick: (ev) =>
+        ev.preventDefault() ||
+        dispatch(set(['dropdowns', uid], !dropdowns[uid])),
+      ...props
     }
   }
-  syncState()
-  subscribe(() => syncState())
-}
-
-function handleClick (ev) {
-  ev.preventDefault()
-  dispatch(toggleDropdown(this._uid))
-}
-
-export default compose(setNodeName('Dropdown'), {
-  componentWillMount,
-  componentDidMount,
-  handleClick,
-  render
-})
+)(BaseDropdown)

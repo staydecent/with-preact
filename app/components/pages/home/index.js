@@ -22,7 +22,7 @@ const Home = ({url, modals = {}}) =>
       </div>
       <div class='spaced'>
         <h2>Dropdown</h2>
-        <Dropdown>
+        <Dropdown uid='food'>
           <ul>
             <li><a href=''>Hotdog</a></li>
             <li><a href=''>Cola</a></li>
