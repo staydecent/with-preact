@@ -20,16 +20,22 @@ import routes from '/routes'
  */
 export const Route = compose(
   setNodeName('Route'),
-  function componentWillMount () {
+  function updateState (newProps) {
     const currentValues = getState().route
     const newValues = {
-      args: this.props.matches,
+      args: newProps.matches,
       url: window.location.pathname,
-      name: this.props.name
+      name: newProps.name
     }
     if (!equal(currentValues, newValues)) {
       dispatch(set('route', newValues))
     }
+  },
+  function componentWillMount () {
+    this.updateState(this.props)
+  },
+  function componentWillUpdate (newProps) {
+    this.updateState(newProps)
   },
   function render ({component: Component}) {
     return <Component />
