@@ -160,18 +160,6 @@ export const RadioField = ({name, label, value, checked, formName, ...props}) =>
     />
   </Field>
 
-export const Radio = ({name, val, value, formName, ...props}) =>
-  <input
-    type='radio'
-    name={name}
-    checked={val === value}
-    onChange={(ev) =>
-      ev.preventDefault() ||
-      dispatch(update(['forms', formName], {[name]: val}))
-    }
-    {...props}
-  />
-
 export const SubmitButton = mapStateToProps('SubmitButton',
   ({forms = {}, formErrors = {}, formState = {}}, props) => ({
     ...props,

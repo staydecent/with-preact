@@ -49,8 +49,8 @@ const Home = ({url, modals = {}}) =>
         <h2>Sign In</h2>
         <p>Sign in to your account below.</p>
 
-        <TextField type='email' placeholder='Your Email' name='email' />
-        <TextField type='password' placeholder='Your Password' name='pass' rules={{min: 8}} />
+        <TextField type='email' className='fancy-label' label='Your Email' name='email' />
+        <TextField type='password' className='fancy-label' label='Your Password' name='pass' rules={{min: 8}} />
 
         <SubmitButton className='btn'>Sign In</SubmitButton>
       </Form>
