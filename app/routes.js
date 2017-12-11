@@ -1,6 +1,6 @@
-import Home from '/components/pages/Home'
-import Resource from '/components/pages/Resource'
-import Guide from '/components/pages/Guide'
+import Home from '/components/pages/home'
+import Resource from '/components/pages/resource'
+import Guide from '/components/pages/guide'
 
 export const routes = {
   home: {

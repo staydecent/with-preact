@@ -1,5 +1,5 @@
-import {DownArrow} from '/components/elements/Arrow'
-import Level from '/components/elements/Level'
+import {DownArrow} from '/components/elements/arrow'
+import Level from '/components/elements/level'
 
 function BaseDropdown ({
   isOpen,

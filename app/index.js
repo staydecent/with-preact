@@ -1,7 +1,7 @@
 import {Router} from '/util/route'
 
-import Header from '/components/elements/Header'
-import Modals from '/components/Modals'
+import Header from '/components/elements/header'
+import Modals from '/components/modals'
 
 import routes from '/routes'
 

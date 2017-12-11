@@ -1,16 +1,16 @@
 import {map, range} from 'wasmuth'
 
 // Components
-import Carousel from '/components/elements/Carousel'
-import Dropdown from '/components/elements/Dropdown'
+import Carousel from '/components/elements/carousel'
+import Dropdown from '/components/elements/dropdown'
 import {
   Form,
   TextField,
   Checkbox,
   SubmitButton
-} from '/components/elements/Form'
-import {Row, Column} from '/components/elements/Grid'
-import Page from '/components/elements/Page'
+} from '/components/elements/form'
+import {Row, Column} from '/components/elements/grid'
+import Page from '/components/elements/page'
 
 const Home = ({url, modals = {}}) =>
   <Page>
