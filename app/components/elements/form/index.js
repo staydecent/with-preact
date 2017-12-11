@@ -146,6 +146,36 @@ export const TextField = mapStateToProps('TextField',
   </Field>
 )
 
+export const Checkbox = mapStateToProps('Checkbox',
+  ({forms = {}}, props) => ({
+    ...props,
+    checked: pathOr(false, [props.formName, props.name], forms)
+  })
+)(({
+  name,
+  formName,
+  checked,
+  label,
+  ...props
+}) =>
+  <div className='label-wrap'>
+    <input
+      type='checkbox'
+      id={name}
+      name={name}
+      checked={checked}
+      onChange={ev =>
+        ev.preventDefault() ||
+        dispatch(update(['forms', formName], {[name]: ev.target.checked}))
+      }
+      {...props}
+    />
+    {label && <label htmlFor={name}>
+      <div>{label}</div>
+    </label>}
+  </div>
+)
+
 export const RadioField = ({name, label, value, checked, formName, ...props}) =>
   <Field label={name} name={name} {...props}>
     <input

@@ -6,6 +6,7 @@ import Dropdown from '/components/elements/Dropdown'
 import {
   Form,
   TextField,
+  Checkbox,
   SubmitButton
 } from '/components/elements/Form'
 import {Row, Column} from '/components/elements/Grid'
@@ -51,6 +52,8 @@ const Home = ({url, modals = {}}) =>
 
         <TextField type='email' className='fancy-label' label='Your Email' name='email' />
         <TextField type='password' className='fancy-label' label='Your Password' name='pass' rules={{min: 8}} />
+
+        <Checkbox label='Subscibe to your newsletter?' name='newsletter' />
 
         <SubmitButton className='btn'>Sign In</SubmitButton>
       </Form>
