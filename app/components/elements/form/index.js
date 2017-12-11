@@ -1,7 +1,14 @@
 import emailRegex from 'email-regex'
 import {debounce as debounceFunction} from 'throttle-debounce'
+import {path, pathOr, some} from 'wasmuth'
 
-import {set, update, dispatch, mapStateToProps} from '/store'
+import {
+  set,
+  update,
+  dispatch,
+  getState,
+  mapStateToProps
+} from '/store'
 
 const {cloneElement} = Preact
 
@@ -26,48 +33,49 @@ const handleValidations = (formName, name, type, rules, value) =>
   (type === 'email' && validateEmail(formName, name)(value)) ||
   (type === 'password' && rules.min && validatePassword(formName, name)(value, rules))
 
-const updateProps = (children, {formName, data, errors}) => {
-  const names = ['TextField', 'RadioField', 'Radio']
+const updateProps = (children, {formName}) => {
+  const names = ['TextField', 'RadioField', 'Radio', 'SubmitButton']
   for (var x = 0; x < children.length; x++) {
     if (children[x].nodeName && names.indexOf(children[x].nodeName.name) > -1) {
-      const name = children[x].attributes.name
-      children[x] = cloneElement(children[x], {
-        formName,
-        value: data[name],
-        error: errors[name]
-      })
+      children[x] = cloneElement(children[x], {formName})
     }
     if (children[x].children && children[x].children.length) {
-      children[x].children = updateProps(children[x].children, {formName, data, errors})
+      children[x].children = updateProps(children[x].children, {formName})
     }
   }
   return children
 }
 
-export const Form = mapStateToProps(
-  ({forms = {}, formErrors = {}, formState = {}}, {name, ...props}) => ({
-    name,
-    data: forms[name] || {},
-    errors: formErrors[name] || {},
-    state: formState[name] || {},
-    ...props
-  })
-)(({
+export const Form = ({
   name,
-  data,
-  errors,
-  state,
   onSubmit,
   children,
   ...props
 }) => {
-  const childrenWithProps = updateProps(children, {formName: name, data, errors})
+  const childrenWithProps = updateProps(children, {formName: name})
+  const handleSubmit = (ev) => {
+    ev.preventDefault()
+    dispatch(update(['formState', name], {submitting: true}))
+    const {forms = {}, formErrors = {}} = getState()
+    const data = forms[name]
+    const errors = formErrors[name]
+    const resp = onSubmit({data, errors})
+    if (!resp || !resp.then) {
+      console.warn(
+        `onSubmit for Form "${name}" does not return a Promise!
+        You may need to set \`{submitting: false}\` manually.`
+      )
+    } else {
+      resp.then(() =>
+        dispatch(update(['formState', name], {submitting: false})))
+    }
+  }
   return (
-    <form onSubmit={ev => ev.preventDefault() || onSubmit({data, errors})} {...props}>
+    <form onSubmit={handleSubmit} {...props}>
       {childrenWithProps}
     </form>
   )
-})
+}
 
 export const Field = ({
   label,
@@ -101,9 +109,13 @@ export const Field = ({
       <div className='field-hint is-error'>{error}</div>}
   </div>
 
-// @TODO: TextField should mapState, or watchPath to show errors etc. rather
-// than rely on Form passing error down.
-export const TextField = ({
+export const TextField = mapStateToProps('TextField',
+  ({forms = {}, formErrors = {}}, props) => ({
+    ...props,
+    value: path([props.formName, props.name], forms),
+    error: path([props.formName, props.name], formErrors)
+  })
+)(({
   type = 'text',
   name,
   placeholder = ' ',
@@ -120,10 +132,10 @@ export const TextField = ({
       type={type}
       name={name}
       placeholder={placeholder}
-      value={value}
       onInput={debounceFunction(debounce, (ev) =>
         ev.preventDefault() ||
         handleValidations(formName, name, type, rules, ev.target.value) ||
+        console.log('???', formName, name, value, ev.target.value) ||
         dispatch(update(['forms', formName], {[name]: ev.target.value}))
       )}
       // setTimeout is needed to wait till after the animation
@@ -132,6 +144,7 @@ export const TextField = ({
       {...props}
     />
   </Field>
+)
 
 export const RadioField = ({name, label, value, checked, formName, ...props}) =>
   <Field label={name} name={name} {...props}>
@@ -158,3 +171,26 @@ export const Radio = ({name, val, value, formName, ...props}) =>
     }
     {...props}
   />
+
+export const SubmitButton = mapStateToProps('SubmitButton',
+  ({forms = {}, formErrors = {}, formState = {}}, props) => ({
+    ...props,
+    isDirty: some(x => x, forms[props.formName] || {}),
+    isSubmitting: pathOr(false, [props.formName, 'submitting'], formState),
+    hasError: some(x => x, formErrors[props.formName] || {})
+  })
+)(({
+  isDirty,
+  isSubmitting,
+  hasError,
+  className = '',
+  Loading = () => <span>Loading...</span>,
+  children
+}) => {
+  const disabled = !isDirty || hasError || isSubmitting
+  return <button type='submit' className={className} disabled={disabled}>
+    {isSubmitting
+      ? <Loading />
+      : children}
+  </button>
+})

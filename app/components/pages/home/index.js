@@ -5,7 +5,8 @@ import Carousel from '/components/elements/Carousel'
 import Dropdown from '/components/elements/Dropdown'
 import {
   Form,
-  TextField
+  TextField,
+  SubmitButton
 } from '/components/elements/Form'
 import {Row, Column} from '/components/elements/Grid'
 import Page from '/components/elements/Page'
@@ -44,14 +45,14 @@ const Home = ({url, modals = {}}) =>
     </div>
 
     <div className='card spaced'>
-      <Form name='SignUp'>
+      <Form name='SignUp' onSubmit={({data, errors}) => console.log('SignUp', errors, data)}>
         <h2>Sign In</h2>
         <p>Sign in to your account below.</p>
 
         <TextField type='email' placeholder='Your Email' name='email' />
         <TextField type='password' placeholder='Your Password' name='pass' rules={{min: 8}} />
 
-        <button type='submit' className='btn'>Sign In</button>
+        <SubmitButton className='btn'>Sign In</SubmitButton>
       </Form>
     </div>
 

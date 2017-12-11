@@ -1,6 +1,6 @@
 import {equal} from 'wasmuth'
 import {subscribe, getState} from '/store'
-import compose from '/util/compose'
+import {compose, setNodeName} from '/util/compose'
 
 /**
  * Mapper is called whenever the state changes.
@@ -11,21 +11,27 @@ import compose from '/util/compose'
  *
  * @TODO: Eventually move this to wasmuth
  */
-export default mapper => Component => compose({
-  componentWillMount () {
-    const syncState = () => {
-      const newProps = mapper(getState(), this.props)
-      if (!equal(newProps, this.state._namespacedState)) {
-        this.setState({_namespacedState: newProps})
-      }
-    }
-    syncState()
-    this.unsubscribe = subscribe(syncState)
-  },
-  componentWillUnmount () {
-    this.unsubscribe()
-  },
-  render ({unsubscribe, _namespacedState, ...props}) {
-    return <Component {...props} {..._namespacedState} />
+export default (nodeName, mapper) => {
+  if (!mapper) {
+    mapper = nodeName
+    nodeName = 'Mapper'
   }
-})
+  return Component => compose(setNodeName(nodeName), {
+    componentWillMount () {
+      const syncState = () => {
+        const newProps = mapper(getState(), this.props)
+        if (!equal(newProps, this.state._namespacedState)) {
+          this.setState({_namespacedState: newProps})
+        }
+      }
+      syncState()
+      this.unsubscribe = subscribe(syncState)
+    },
+    componentWillUnmount () {
+      this.unsubscribe()
+    },
+    render ({unsubscribe, _namespacedState, ...props}) {
+      return <Component {...props} {..._namespacedState} />
+    }
+  })
+}
