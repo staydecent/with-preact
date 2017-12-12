@@ -1,7 +1,7 @@
 import {pipe} from 'wasmuth'
 import {dispatch, set} from '/store'
 import compose from '/util/compose'
-import withProgress from '/components/hoc/WithProgress'
+import withProgress from '/components/hoc/with-progress'
 
 /**
  * Simulate a successful, slow, request to "url" in state (with progress)

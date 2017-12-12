@@ -40,13 +40,15 @@ export const Route = compose(
   function componentWillUpdate (newProps) {
     this.updateState(newProps)
   },
-  function render ({isAuthed, component: Component}) {
+  function render ({name, isAuthed, component: Component}) {
     if (toType(isAuthed) === 'function') {
       const authed = isAuthed(getState())
       if (!authed) {
-        const NotFound = path(['_notFound', 'component'], routes)
-        return NotFound ? <NotFound /> : null
+        const NotAuthed = path(['_notAuthed', 'component'], routes)
+        return NotAuthed ? <NotAuthed /> : null
       }
+    } else if (isAuthed != null) {
+      console.warn(`isAuthed for route "${name}" should be a function that accepts the current state and returns a Boolean!`)
     }
     return <Component />
   }
