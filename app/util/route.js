@@ -1,5 +1,6 @@
+import check from 'check-arg-types'
 import queryString from 'query-string'
-import {map, reduce, equal, pipe} from 'wasmuth'
+import {map, reduce, equal, pipe, path} from 'wasmuth'
 
 import PreactRouter from 'preact-router'
 
@@ -7,6 +8,8 @@ import {compose, setNodeName} from '/util/compose'
 
 import {set, dispatch, getState} from '/store'
 import routes from '/routes'
+
+const toType = check.prototype.toType
 
 /**
  * Add preact-router props into the atom state
@@ -37,7 +40,14 @@ export const Route = compose(
   function componentWillUpdate (newProps) {
     this.updateState(newProps)
   },
-  function render ({component: Component}) {
+  function render ({isAuthed, component: Component}) {
+    if (toType(isAuthed) === 'function') {
+      const authed = isAuthed(getState())
+      if (!authed) {
+        const NotFound = path(['_notFound', 'component'], routes)
+        return NotFound ? <NotFound /> : null
+      }
+    }
     return <Component />
   }
 )
