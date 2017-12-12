@@ -1,5 +1,6 @@
+import check from 'check-arg-types'
 import queryString from 'query-string'
-import {map, reduce, equal, pipe} from 'wasmuth'
+import {map, reduce, equal, pipe, path} from 'wasmuth'
 
 import PreactRouter from 'preact-router'
 
@@ -7,6 +8,8 @@ import {compose, setNodeName} from '/util/compose'
 
 import {set, dispatch, getState} from '/store'
 import routes from '/routes'
+
+const toType = check.prototype.toType
 
 /**
  * Add preact-router props into the atom state
@@ -20,18 +23,33 @@ import routes from '/routes'
  */
 export const Route = compose(
   setNodeName('Route'),
-  function componentWillMount () {
+  function updateState (newProps) {
     const currentValues = getState().route
     const newValues = {
-      args: this.props.matches,
+      args: newProps.matches,
       url: window.location.pathname,
-      name: this.props.name
+      name: newProps.name
     }
     if (!equal(currentValues, newValues)) {
       dispatch(set('route', newValues))
     }
   },
-  function render ({component: Component}) {
+  function componentWillMount () {
+    this.updateState(this.props)
+  },
+  function componentWillUpdate (newProps) {
+    this.updateState(newProps)
+  },
+  function render ({name, isAuthed, component: Component}) {
+    if (toType(isAuthed) === 'function') {
+      const authed = isAuthed(getState())
+      if (!authed) {
+        const NotAuthed = path(['_notAuthed', 'component'], routes)
+        return NotAuthed ? <NotAuthed /> : null
+      }
+    } else if (isAuthed != null) {
+      console.warn(`isAuthed for route "${name}" should be a function that accepts the current state and returns a Boolean!`)
+    }
     return <Component />
   }
 )

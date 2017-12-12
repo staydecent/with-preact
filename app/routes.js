@@ -13,7 +13,12 @@ export const routes = {
   },
   resource: {
     path: '/resource/:id',
-    component: Resource
+    component: Resource,
+    isAuthed: () => false
+  },
+  _notAuthed: {
+    path: '/401',
+    component: Home
   }
 }
 
