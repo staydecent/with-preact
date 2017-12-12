@@ -32,12 +32,11 @@ export const getFiltersQueryString = (filters, extraFilter) =>
     )(filters)
     : ''
 
-const LoadMore = compose(
-  setNodeName('LoadMore'),
-  function init () {
+export default compose(setNodeName('LoadMore'), {
+  init () {
     this.state = {results: [], page: 0, hasMore: true, filters: getFiltersQueryString(this.props.filters)}
   },
-  function loadMore (concat = true) {
+  loadMore (concat = true) {
     const headers = {}
     const token = window.localStorage.getItem('token')
     if (token) {
@@ -64,7 +63,7 @@ const LoadMore = compose(
         }, () => dispatch(set(['loadMore', this.props.endpoint], allResults)))
       })
   },
-  function componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (nextProps.filters && getFiltersQueryString(nextProps.filters) !== this.state.filters) {
       if (this.request) this.request.abort()
       let setFilters = getFiltersQueryString(nextProps.filters)
@@ -75,13 +74,13 @@ const LoadMore = compose(
       this.setState({page: 0, filters: setFilters}, () => this.loadMore(false))
     }
   },
-  function componentDidMount () {
+  componentDidMount () {
     this.limit = this.props.limit || 24
     if (this.state.page === 0) {
       this.loadMore()
     }
   },
-  function render ({endpoint, hasMore, loadMore, children}) {
+  render ({endpoint, hasMore, loadMore, children}) {
     const child = children[0]
     if (!child || typeof child !== 'function') {
       throw new Error('LoadMore requires a function as its only child')
@@ -89,6 +88,4 @@ const LoadMore = compose(
     const results = pathOr([], ['loadMore', endpoint], getState())
     return child(results, hasMore ? loadMore : false)
   }
-)
-
-export default LoadMore
+})

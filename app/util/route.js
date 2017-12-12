@@ -21,9 +21,8 @@ const toType = check.prototype.toType
  * this component is given the props "matches" and "name" by preact-router
  * Router. These props are added to the state.
  */
-export const Route = compose(
-  setNodeName('Route'),
-  function updateState (newProps) {
+export const Route = compose(setNodeName('Route'), {
+  updateState (newProps) {
     const currentValues = getState().route
     const newValues = {
       args: newProps.matches,
@@ -34,13 +33,13 @@ export const Route = compose(
       dispatch(set('route', newValues))
     }
   },
-  function componentWillMount () {
+  componentWillMount () {
     this.updateState(this.props)
   },
-  function componentWillUpdate (newProps) {
+  componentWillUpdate (newProps) {
     this.updateState(newProps)
   },
-  function render ({name, isAuthed, component: Component}) {
+  render ({name, isAuthed, component: Component}) {
     if (toType(isAuthed) === 'function') {
       const authed = isAuthed(getState())
       if (!authed) {
@@ -52,7 +51,7 @@ export const Route = compose(
     }
     return <Component />
   }
-)
+})
 
 /**
  * Use instead of preact-router Router component.

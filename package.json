@@ -26,7 +26,7 @@
     "babel-preset-react": "6.24",
     "brunch": "2",
     "check-arg-types": "1.1.0",
-    "classless-component": "0.1.0",
+    "classless-component": "1.0.0",
     "ejs": "2.5.7",
     "email-regex": "^2.0.0",
     "less-brunch": "2.10.0",
