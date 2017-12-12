@@ -1,6 +1,14 @@
 import check from 'check-arg-types'
 import queryString from 'query-string'
-import {map, reduce, equal, pipe, path} from 'wasmuth'
+import {
+  map,
+  reduce,
+  find,
+  equal,
+  pipe,
+  path,
+  toPairs
+} from 'wasmuth'
 
 import PreactRouter from 'preact-router'
 
@@ -39,7 +47,7 @@ export const Route = compose(setNodeName('Route'), {
   componentWillUpdate (newProps) {
     this.updateState(newProps)
   },
-  render ({name, isAuthed, component: Component}) {
+  render ({name, isAuthed, matches, component: Component}) {
     if (toType(isAuthed) === 'function') {
       const authed = isAuthed(getState())
       if (!authed) {
@@ -49,7 +57,18 @@ export const Route = compose(setNodeName('Route'), {
     } else if (isAuthed != null) {
       console.warn(`isAuthed for route "${name}" should be a function that accepts the current state and returns a Boolean!`)
     }
-    return <Component />
+    const type = toType(Component)
+    if (type === 'function') {
+      return <Component />
+    } else if (type === 'object') {
+      const paths = toPairs(matches)
+      const match = find(p => path(p, Component), paths)
+      if (match) {
+        const Match = path(match, Component)
+        return <Match />
+      }
+    }
+    console.warn(`Route failed to find a Component to render!`)
   }
 })
 
@@ -86,6 +105,9 @@ export const Router = pipe(
  */
 export const urlFor = (name, {args = {}, queries = {}} = {}) => {
   const rule = routes[name]
+  if (!rule) {
+    console.warn('No route found for name: '  + name)
+  }
   const replaced = reduce(
     (acc, k) => acc.replace(`:${k}`, args[k]),
     rule.path,
